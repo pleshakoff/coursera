@@ -23,7 +23,7 @@ public class MaxPairwiseProduct {
         return product;
     }
 
-    static int getMaxPairwiseProductFaster(int[] numbers) {
+    static long getMaxPairwiseProductFaster(int[] numbers) {
         int n = numbers.length;
         int index1 = 0;
         for (int i=1;i<n;i++)
@@ -34,14 +34,17 @@ public class MaxPairwiseProduct {
         }
 
         int index2=0;
-        for (int i=1;i<n;i++)
+        if (index1==0) {
+            index2=1;
+        }
+
+        for (int i=0;i<n;i++)
         {
             if ((numbers[i]>numbers[index2]) && (index1!=i)) {
                 index2=i;
             }
         }
-        printlnArray(numbers);
-        return numbers[index1]*numbers[index2];
+        return (long)numbers[index1]*(long)numbers[index2];
     }
 
     static void swapArrayElements(int[] array, int pos1, int pos2){
