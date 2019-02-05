@@ -4,34 +4,41 @@ public class LargestNumber {
 
     private static String largestNumber(String[] a) {
         //write your code here
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < a.length; i++) {
-            int max = 0;
+            String max = "0";
             int maxIndex=0;
             for (int j = 0; j < a.length; j++) {
-               int current=Integer.valueOf(makeBigDigit(a[j]));
-               if (max<current)
+               //int current=Integer.valueOf(makeBigDigit(a[j]));
+               if (greaterOrEqual(a[j],max))
                {
-                   max=current;
+                   max=a[j];
                    maxIndex=j;
                }
 
             }
-            result+=a[maxIndex];
+            result.append(a[maxIndex]);
             a[maxIndex]="0";
 
 
         }
-        return result;
+        return result.toString();
+    }
+
+    static boolean  greaterOrEqual(String left,String right)
+    {
+        return Integer.valueOf(left+right)>=Integer.valueOf(right+left);
     }
 
     static String makeBigDigit(String s)
     {
-        String last = s.substring(s.length() - 1);
+        /*String last = s.substring(s.length() - 1);
         StringBuilder stringBuilder = new StringBuilder(s);
-        for (int i = s.length(); i < 4; i++)
+        for (int i = s.length(); i < 3; i++)
+            stringBuilder.append(0);
             stringBuilder.append(last);
-        return stringBuilder.toString();
+        return stringBuilder.toString();*/
+        return s;
 
 
     }
