@@ -4,15 +4,49 @@ public class Inversions {
 
     private static long getNumberOfInversions(int[] a, int[] b, int left, int right) {
         long numberOfInversions = 0;
-        if (right <= left + 1) {
+        if (right == left) {
+            b[left] = a[left];
             return numberOfInversions;
         }
         int ave = (left + right) / 2;
         numberOfInversions += getNumberOfInversions(a, b, left, ave);
-        numberOfInversions += getNumberOfInversions(a, b, ave, right);
-        //write your code here
+        numberOfInversions += getNumberOfInversions(a, b, ave + 1, right);
+
+
+        int res[] = new int[a.length];
+        int i=left,j=ave+1;
+        for (int cnt = left; cnt <=right ; cnt++) {
+            if (i>ave)
+            {
+                a[cnt]=b[j];
+                j++;
+
+            }
+            else
+
+            if (j>right)
+            {
+                res[cnt]=b[i];
+                i++;
+            }
+            else
+            if ((b[i] > b[j])) {
+                numberOfInversions+=ave-i+1;
+                res[cnt]=b[j];
+                j++;
+            }
+            else
+            {
+                res[cnt]=b[i];
+                i++;
+
+            }
+        }
+
+
         return numberOfInversions;
     }
+
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -22,7 +56,20 @@ public class Inversions {
             a[i] = scanner.nextInt();
         }
         int[] b = new int[n];
-        System.out.println(getNumberOfInversions(a, b, 0, a.length));
+        long numberOfInversions = getNumberOfInversions(a, b, 0, a.length - 1);
+        System.out.println(numberOfInversions);
+//        for (int bb:b
+//             ) {
+//            System.out.print(bb+" ");
+//
+//        }
+    }
+
+    static void swapArrayElements(int[] array, int pos1, int pos2) {
+        int tmp = array[pos1];
+        array[pos1] = array[pos2];
+        array[pos2] = tmp;
+
     }
 }
 
