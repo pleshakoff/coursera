@@ -18,12 +18,11 @@ public class Inversions {
         for (int cnt = left; cnt <=right ; cnt++) {
             if (i>ave)
             {
-                a[cnt]=b[j];
+                res[cnt]=b[j];
                 j++;
 
             }
             else
-
             if (j>right)
             {
                 res[cnt]=b[i];
@@ -42,7 +41,10 @@ public class Inversions {
 
             }
         }
-
+   //     System.arraycopy(res,left,b,left,right-left+1);
+//        for (int k = left; k <=right; k++) {
+//            b[k]=res[k];
+//        }
 
         return numberOfInversions;
     }
