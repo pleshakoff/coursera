@@ -3,6 +3,7 @@ import java.util.*;
 public class Inversions {
 
     private static long getNumberOfInversions(int[] a, int[] b, int left, int right) {
+        //6 1 5 2 4 3
         long numberOfInversions = 0;
         if (right == left) {
             b[left] = a[left];
@@ -13,38 +14,38 @@ public class Inversions {
         numberOfInversions += getNumberOfInversions(a, b, ave + 1, right);
 
 
-        int res[] = new int[a.length];
+//        int res[] = new int[a.length];
         int i=left,j=ave+1;
         for (int cnt = left; cnt <=right ; cnt++) {
             if (i>ave)
             {
-                res[cnt]=b[j];
+                b[cnt]=a[j];
                 j++;
 
             }
             else
             if (j>right)
             {
-                res[cnt]=b[i];
+                b[cnt]=a[i];
                 i++;
             }
             else
-            if ((b[i] > b[j])) {
+            if ((a[i] > a[j])) {
                 numberOfInversions+=ave-i+1;
-                res[cnt]=b[j];
+                b[cnt]=a[j];
                 j++;
             }
             else
             {
-                res[cnt]=b[i];
+                b[cnt]=a[i];
                 i++;
 
             }
         }
-   //     System.arraycopy(res,left,b,left,right-left+1);
-//        for (int k = left; k <=right; k++) {
-//            b[k]=res[k];
-//        }
+    //    System.arraycopy(res,left,b,left,right-left+1);
+        for (int k = left; k <=right; k++) {
+            a[k]=b[k];
+        }
 
         return numberOfInversions;
     }
