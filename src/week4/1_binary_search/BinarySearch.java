@@ -5,9 +5,10 @@ public class BinarySearch {
 
     static int binarySearch(int[] a, int x) {
         int left = 0, right = a.length-1;
+        int mid = -1;
         while (left<=right)
         {
-            int mid = left+(right-left)/2;
+            mid = left+(right-left)/2;
             if (a[mid]==x)
                 return mid;
             else
