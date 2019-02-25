@@ -4,30 +4,45 @@ import java.util.*;
 public class Sorting {
     private static Random random = new Random();
 
-    private static int[] partition3(int[] a, int l, int r) {
-      //write your code here
-
-
-      int m1 = l;
-      int m2 = r;
-      int[] m = {m1, m2};
-      return m;
-    }
-
-    private static int partition2(int[] a, int l, int r) {
-        int x = a[l];
-        int j = l;
-        for (int i = l + 1; i <= r; i++) {
-            if (a[i] <= x) {
+    private static int[] partition3(int[] a, int left, int right) {
+        //write your code here
+        int x = a[left];
+        int m1 = left;
+        int m2 = right;
+        int j = left+1;
+        while (j <= m2) {
+            if (a[j] < x) {
+                m1++;
+                swapArrayElements(a, m1, j);
                 j++;
-                int t = a[i];
-                a[i] = a[j];
-                a[j] = t;
+            }
+            else
+            if (a[j] > x) {
+                swapArrayElements(a,j, m2);
+                m2--;
+            }
+            else
+            if (a[j] == x) {
+               j++;
             }
         }
-        int t = a[l];
-        a[l] = a[j];
-        a[j] = t;
+        swapArrayElements(a, left, m1);
+
+// 1 2 1 1 2 1 3
+        int[] m = {m1, m2};
+        return m;
+    }
+
+    private static int partition2(int[] a, int left, int right) {
+        int x = a[left];
+        int j = left;
+        for (int i = left + 1; i <= right; i++) {
+            if (a[i] <= x) {
+                j++;
+                swapArrayElements(a, i, j);
+            }
+        }
+        swapArrayElements(a, left, j);
         return j;
     }
 
@@ -36,13 +51,13 @@ public class Sorting {
             return;
         }
         int k = random.nextInt(r - l + 1) + l;
-        int t = a[l];
-        a[l] = a[k];
-        a[k] = t;
+        swapArrayElements(a, l, k);
+
         //use partition3
-        int m = partition2(a, l, r);
-        randomizedQuickSort(a, l, m - 1);
-        randomizedQuickSort(a, m + 1, r);
+        //int m = partition2(a, l, r);
+        int[] res3 = partition3(a, l, r);
+        randomizedQuickSort(a, l, res3[0] - 1);
+        randomizedQuickSort(a, res3[1]+1, r);
     }
 
     public static void main(String[] args) {
@@ -85,5 +100,13 @@ public class Sorting {
             return Integer.parseInt(next());
         }
     }
+
+    static void swapArrayElements(int[] array, int pos1, int pos2) {
+        int tmp = array[pos1];
+        array[pos1] = array[pos2];
+        array[pos2] = tmp;
+
+    }
+
 }
 
