@@ -4,9 +4,38 @@ public class PointsAndSegments {
 
     private static int[] fastCountSegments(int[] starts, int[] ends, int[] points) {
         int[] cnt = new int[points.length];
-        //write your code here
+        int mid = (starts.length-1)/2;
+        for (int i = 0; i < points.length; i++) {
+               cnt[i] = getCnt(points[i],starts, ends,0, starts.length-1);
+        }
         return cnt;
     }
+
+    private static int getCnt(int point,int[] starts, int[] ends,int left, int right){
+
+          if (left == right)
+          {
+              if (starts[left] <= point && point <= ends[left])
+                  return 1;
+              else
+                  return 0;
+
+          }
+          else
+          if (left+1 == right)
+          {
+              return getCnt(point,starts, ends,left,left)+
+                      getCnt(point,starts, ends,right,right);
+          }
+          else
+          {
+              int mid = left + (right - left) / 2;
+              return getCnt(point,starts, ends,left, mid)+
+                      getCnt(point,starts, ends,mid+1,right);
+
+          }
+    };
+
 
     private static int[] naiveCountSegments(int[] starts, int[] ends, int[] points) {
         int[] cnt = new int[points.length];
@@ -36,7 +65,7 @@ public class PointsAndSegments {
             points[i] = scanner.nextInt();
         }
         //use fastCountSegments
-        int[] cnt = naiveCountSegments(starts, ends, points);
+        int[] cnt = fastCountSegments(starts, ends, points);
         for (int x : cnt) {
             System.out.print(x + " ");
         }

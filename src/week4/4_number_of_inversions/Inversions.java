@@ -14,7 +14,6 @@ public class Inversions {
         numberOfInversions += getNumberOfInversions(a, b, ave + 1, right);
 
 
-//        int res[] = new int[a.length];
         int i=left,j=ave+1;
         for (int cnt = left; cnt <=right ; cnt++) {
             if (i>ave)
@@ -42,7 +41,7 @@ public class Inversions {
 
             }
         }
-    //    System.arraycopy(res,left,b,left,right-left+1);
+
         for (int k = left; k <=right; k++) {
             a[k]=b[k];
         }
