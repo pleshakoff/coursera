@@ -2,18 +2,42 @@ import java.util.*;
 
 public class PrimitiveCalculator {
     private static List<Integer> optimal_sequence(int n) {
-        List<Integer> sequence = new ArrayList<Integer>();
-        while (n >= 1) {
-            sequence.add(n);
-            if (n % 3 == 0) {
-                n /= 3;
-            } else if (n % 2 == 0) {
-                n /= 2;
-            } else {
-                n -= 1;
+        int[] operations = new int[n + 1];
+
+        operations[1] = 0;
+
+        //сначала для каждого числа до n считаем количество операций, которым оно может быть достигнуто
+        for (int i = 2; i <= n; i++) {
+            int min = operations[i - 1] + 1;
+            if (i % 2 == 0) {
+                min = Math.min(min, operations[i / 2] + 1);
             }
+            if (i % 3 == 0) {
+                min = Math.min(min, operations[i / 3] + 1);
+            }
+            operations[i] = min;
         }
+
+        //ищем для каждой операции придудущую и выполняем ее
+        int i = n;
+        List<Integer> sequence = new ArrayList<Integer>();
+        sequence.add(i);
+        while (i != 1) {
+            if ((operations[i - 1] + 1) == operations[i]) {
+               i--;
+            }
+            else if ((i % 2 == 0) && ((operations[i / 2] + 1) == operations[i])) {
+                i/=2;
+            }
+            else if ((i % 3 == 0) && ((operations[i / 3] + 1) == operations[i])) {
+                i/=3;
+            }
+            sequence.add(i);
+
+        }
+
         Collections.reverse(sequence);
+
         return sequence;
     }
 
