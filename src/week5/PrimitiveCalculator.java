@@ -18,7 +18,7 @@ public class PrimitiveCalculator {
             operations[i] = min;
         }
 
-        //ищем для каждой операции придудущую и выполняем ее
+        //ищем для каждой операции придыдущую и выполняем ее
         int i = n;
         List<Integer> sequence = new ArrayList<Integer>();
         sequence.add(i);
