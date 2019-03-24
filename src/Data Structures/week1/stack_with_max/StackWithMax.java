@@ -19,21 +19,35 @@ public class StackWithMax {
             return Integer.parseInt(next());
         }
     }
+    class Node {
+        int val;
+        int max;
+
+        public Node(int val, int max) {
+            this.val = val;
+            this.max = max;
+        }
+    }
 
     public void solve() throws IOException {
         FastScanner scanner = new FastScanner();
         int queries = scanner.nextInt();
-        Stack<Integer> stack = new Stack<Integer>();
+        Stack<Node> stack = new Stack<Node>();
 
+        int maxVal=Integer.MIN_VALUE;
         for (int qi = 0; qi < queries; ++qi) {
             String operation = scanner.next();
             if ("push".equals(operation)) {
                 int value = scanner.nextInt();
-                stack.push(value);
+                if (value > maxVal) {
+                    maxVal = value;
+                }
+                stack.push(new Node(value,maxVal));
             } else if ("pop".equals(operation)) {
                 stack.pop();
+                maxVal=stack.peek().max;
             } else if ("max".equals(operation)) {
-                System.out.println(Collections.max(stack));
+                System.out.println(maxVal);
             }
         }
     }
