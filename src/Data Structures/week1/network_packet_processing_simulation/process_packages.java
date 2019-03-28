@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Queue;
 import java.util.Scanner;
 
 class Request {
@@ -23,18 +24,31 @@ class Response {
 }
 
 class Buffer {
+
     public Buffer(int size) {
-        this.size_ = size;
-        this.finish_time_ = new ArrayList<Integer>();
+        this.size = size;
+        this.finish_time = new ArrayList<Integer>();
     }
 
     public Response Process(Request request) {
         // write your code here
-        return new Response(false, -1);
+        while (finish_time.size()>0 && finish_time.get(0)<=request.arrival_time)
+            finish_time.remove(0);
+        if (finish_time.size() == size) {
+            return new Response(true, -1);
+        }
+        int start_time;
+        if (finish_time.size() == 0) {
+            start_time=request.arrival_time;
+        }
+        else
+          start_time=finish_time.get(finish_time.size()-1);
+        finish_time.add(start_time+request.process_time);
+        return new Response(false, start_time);
     }
 
-    private int size_;
-    private ArrayList<Integer> finish_time_;
+    private int size;
+    private ArrayList<Integer> finish_time;
 }
 
 class process_packages {
