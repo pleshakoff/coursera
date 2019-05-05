@@ -21,6 +21,7 @@ public class MergingTables {
 
     class Table {
         Table parent;
+        Table link;
         int rank;
         int numberOfRows;
 
@@ -28,11 +29,21 @@ public class MergingTables {
             this.numberOfRows = numberOfRows;
             rank = 0;
             parent = this;
+            link = this;
         }
+
         Table getParent() {
-            // find super parent and compress path
+            if (parent!= this)
+              parent = parent.getParent();
             return parent;
         }
+
+        Table getLink() {
+            if (link!= this)
+                link = link.getLink();
+            return link;
+        }
+
     }
 
     int maximumNumberOfRows = -1;
@@ -40,12 +51,27 @@ public class MergingTables {
     void merge(Table destination, Table source) {
         Table realDestination = destination.getParent();
         Table realSource = source.getParent();
+
         if (realDestination == realSource) {
             return;
         }
-        // merge two components here
-        // use rank heuristic
-        // update maximumNumberOfRows
+        Table head;
+        Table tail;
+        if (realDestination.rank > realSource.rank) {
+            realSource.parent = realDestination;
+            head= realDestination;
+            tail =realSource;
+        } else {
+            realDestination.parent = realSource;
+            head= realSource;
+            tail =realDestination;
+            if (realDestination.rank == realSource.rank) {
+                realSource.rank++;
+            }
+        }
+        head.numberOfRows = realDestination.numberOfRows+realSource.numberOfRows;
+        tail.numberOfRows=0;
+        maximumNumberOfRows=Math.max(head.numberOfRows,maximumNumberOfRows);
     }
 
     public void run() {
