@@ -56,7 +56,7 @@ public class HashSubstring {
 //        System.out.println("NEW");
 
         hashes = new int[textLength-patternLength+1];
-        hashes[textLength-patternLength]=hashFunc(text.substring(textLength-patternLength,textLength));//!!!!!!
+        hashes[textLength-patternLength]=hashFunc(text.substring(textLength-patternLength,textLength));
 //        System.out.println(hashes[textLength-patternLength] +" "+text.substring(textLength-patternLength,textLength));
         long y=1;
         for (int i = 1; i <=patternLength; i++) {
@@ -65,7 +65,7 @@ public class HashSubstring {
         for (int i = textLength-patternLength-1; i >=0 ; i--) {
            hashes[i]= (int) ((((long)multiplier*hashes[i+1]+text.charAt(i)-y*text.charAt(i+patternLength))%prime+prime)%prime);
 //          H[i] ← (xH[i + 1] + T[i] − yT[i + |P|]) mod p
-   //         System.out.println(hashes[i] +" "+text.substring(i,i+patternLength));
+//         System.out.println(hashes[i] +" "+text.substring(i,i+patternLength));
         }
     }
 
@@ -109,14 +109,17 @@ public class HashSubstring {
         textLength = text.length();
         patternLength = pattern.length();
 
+        int patternHash = hashFunc(pattern);
+
         List<Integer> occurrences = new ArrayList<Integer>();
         precomputeHashes();
 //        precomputeHashesOld();
 
         for (int i = 0; i + patternLength <= textLength; ++i) {
-            boolean equal = true;
-            if (hashFunc(text.substring(i,i+patternLength))==hashes[i])
+            boolean equal = false;
+            if (patternHash==hashes[i])
             {
+                equal = true;
                 for (int j = 0; j < patternLength; ++j) {
                     if (pattern.charAt(j) != text.charAt(i + j)) {
                         equal = false;
