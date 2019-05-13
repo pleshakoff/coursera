@@ -9,6 +9,15 @@ public class HashSubstring {
     private static FastScanner in;
     private static PrintWriter out;
 
+    private static int prime = 1000000007;
+    private static int multiplier = 263;
+    private static String pattern;
+    private static String text;
+    private static int[] hashes;
+    private static int textLength;
+    private static int patternLength;
+
+
     public static void main(String[] args) throws IOException {
         in = new FastScanner();
         out = new PrintWriter(new BufferedOutputStream(System.out));
@@ -29,21 +38,95 @@ public class HashSubstring {
         }
     }
 
+    //    H ← array of length |T| − |P| + 1
+//    S ← T[|T| − |P|..|T| − 1]
+//    H[|T| − |P|] ← PolyHash(S, p, x)
+//    y ← 1
+//            for i from 1 to |P|:
+//    y ← (y × x) mod p
+
+//    for i from |T| − |P| − 1 down to 0:
+//       H[i] ← (xH[i + 1] + T[i] − yT[i + |P|]) mod p
+//    return H
+
+    private static void precomputeHashes() {
+
+        System.out.println("");
+        System.out.println("");
+        System.out.println("NEW");
+
+        hashes = new int[textLength-patternLength+1];
+        hashes[textLength-patternLength]=hashFunc(text.substring(textLength-patternLength,textLength));//!!!!!!
+        System.out.println(hashes[textLength-patternLength] +" "+text.substring(textLength-patternLength,textLength));
+        long y=1;
+        for (int i = 1; i <=patternLength; i++) {
+            y=(y*multiplier)%prime;
+        }
+        for (int i = textLength-patternLength-1; i >=0 ; i--) {
+           hashes[i]= (int) (((multiplier*hashes[i+1]+text.charAt(i)-y*text.charAt(i+patternLength))%prime+prime)%prime);
+//          H[i] ← (xH[i + 1] + T[i] − yT[i + |P|]) mod p
+            System.out.println(hashes[i] +" "+text.substring(i,i+patternLength));
+        }
+    }
+
+    private static void precomputeHashesOld() {
+//        System.out.println("");
+//        System.out.println("");
+//        System.out.println("OLD");
+
+        hashes = new int[textLength-patternLength+1];
+        for (int i = textLength-patternLength; i >=0 ; i--) {
+            hashes[i]=hashFunc(text.substring(i,i+patternLength));
+       //     System.out.println(hashes[i] +" "+text.substring(i,i+patternLength));
+        }
+    }
+
+
+
+//    H ← array of length |T| − |P| + 1
+//    S ← T[|T| − |P|..|T| − 1]
+//    H[|T| − |P|] ← PolyHash(S, p, x)
+//    y ← 1
+//            for i from 1 to |P|:
+//    y ← (y × x) mod p
+
+//    for i from |T| − |P| − 1 down to 0:
+//       H[i] ← (xH[i + 1] + T[i] − yT[i + |P|]) mod p
+//    return H
+
+
+    private static int hashFunc(String s) {
+        long hash = 0;
+        for (int i = s.length() - 1; i >= 0; --i)
+            hash = (hash * multiplier + s.charAt(i)) % prime;
+        return (int)hash;
+    }
+
+
     private static List<Integer> getOccurrences(Data input) {
-        String s = input.pattern, t = input.text;
-        int m = s.length(), n = t.length();
+        pattern = input.pattern;
+        text = input.text;
+        textLength = text.length();
+        patternLength = pattern.length();
+
         List<Integer> occurrences = new ArrayList<Integer>();
-        for (int i = 0; i + m <= n; ++i) {
-	    boolean equal = true;
-	    for (int j = 0; j < m; ++j) {
-		if (s.charAt(j) != t.charAt(i + j)) {
-		     equal = false;
- 		    break;
-		}
-	    }
+//        precomputeHashes();
+        precomputeHashesOld();
+
+        for (int i = 0; i + patternLength <= textLength; ++i) {
+            boolean equal = true;
+            if (hashFunc(text.substring(i,i+patternLength))==hashes[i])
+            {
+                for (int j = 0; j < patternLength; ++j) {
+                    if (pattern.charAt(j) != text.charAt(i + j)) {
+                        equal = false;
+                        break;
+                    }
+                }
+            }
             if (equal)
                 occurrences.add(i);
-	}
+        }
         return occurrences;
     }
 
