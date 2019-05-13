@@ -51,33 +51,33 @@ public class HashSubstring {
 
     private static void precomputeHashes() {
 
-        System.out.println("");
-        System.out.println("");
-        System.out.println("NEW");
+//        System.out.println("");
+//        System.out.println("");
+//        System.out.println("NEW");
 
         hashes = new int[textLength-patternLength+1];
         hashes[textLength-patternLength]=hashFunc(text.substring(textLength-patternLength,textLength));//!!!!!!
-        System.out.println(hashes[textLength-patternLength] +" "+text.substring(textLength-patternLength,textLength));
+//        System.out.println(hashes[textLength-patternLength] +" "+text.substring(textLength-patternLength,textLength));
         long y=1;
         for (int i = 1; i <=patternLength; i++) {
             y=(y*multiplier)%prime;
         }
         for (int i = textLength-patternLength-1; i >=0 ; i--) {
-           hashes[i]= (int) (((multiplier*hashes[i+1]+text.charAt(i)-y*text.charAt(i+patternLength))%prime+prime)%prime);
+           hashes[i]= (int) ((((long)multiplier*hashes[i+1]+text.charAt(i)-y*text.charAt(i+patternLength))%prime+prime)%prime);
 //          H[i] ← (xH[i + 1] + T[i] − yT[i + |P|]) mod p
-            System.out.println(hashes[i] +" "+text.substring(i,i+patternLength));
+   //         System.out.println(hashes[i] +" "+text.substring(i,i+patternLength));
         }
     }
 
     private static void precomputeHashesOld() {
-//        System.out.println("");
-//        System.out.println("");
-//        System.out.println("OLD");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("OLD");
 
         hashes = new int[textLength-patternLength+1];
         for (int i = textLength-patternLength; i >=0 ; i--) {
             hashes[i]=hashFunc(text.substring(i,i+patternLength));
-       //     System.out.println(hashes[i] +" "+text.substring(i,i+patternLength));
+            System.out.println(hashes[i] +" "+text.substring(i,i+patternLength));
         }
     }
 
@@ -110,8 +110,8 @@ public class HashSubstring {
         patternLength = pattern.length();
 
         List<Integer> occurrences = new ArrayList<Integer>();
-//        precomputeHashes();
-        precomputeHashesOld();
+        precomputeHashes();
+//        precomputeHashesOld();
 
         for (int i = 0; i + patternLength <= textLength; ++i) {
             boolean equal = true;
