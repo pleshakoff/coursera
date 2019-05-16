@@ -38,27 +38,50 @@ public class tree_orders {
 			}
 		}
 
+		void addNodeToResultInOrder(int i,ArrayList<Integer> result) {
+			if (i == -1) return;
+		    addNodeToResultInOrder(left[i],result);
+         	result.add(key[i]);
+			addNodeToResultInOrder(right[i],result);
+		}
+
+		void addNodeToResultPreOrder(int i,ArrayList<Integer> result) {
+			if (i == -1) return;
+			result.add(key[i]);
+			addNodeToResultPreOrder(left[i],result);
+			addNodeToResultPreOrder(right[i],result);
+		}
+
+		void addNodeToResultPostOrder(int i,ArrayList<Integer> result) {
+			if (i == -1) return;
+			addNodeToResultPostOrder(left[i],result);
+			addNodeToResultPostOrder(right[i],result);
+			result.add(key[i]);
+		}
+
+
+
 		List<Integer> inOrder() {
 			ArrayList<Integer> result = new ArrayList<Integer>();
-                        // Finish the implementation
-                        // You may need to add a new recursive method to do that
-                        
+			if (key.length > 0) {
+				addNodeToResultInOrder(0,result);
+			}
 			return result;
 		}
 
 		List<Integer> preOrder() {
 			ArrayList<Integer> result = new ArrayList<Integer>();
-                        // Finish the implementation
-                        // You may need to add a new recursive method to do that
-                        
+			if (key.length > 0) {
+				addNodeToResultPreOrder(0,result);
+			}
 			return result;
 		}
 
 		List<Integer> postOrder() {
 			ArrayList<Integer> result = new ArrayList<Integer>();
-                        // Finish the implementation
-                        // You may need to add a new recursive method to do that
-                        
+			if (key.length > 0) {
+				addNodeToResultPostOrder(0,result);
+			}
 			return result;
 		}
 	}

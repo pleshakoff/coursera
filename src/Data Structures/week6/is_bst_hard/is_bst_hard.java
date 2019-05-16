@@ -64,10 +64,10 @@ public class is_bst_hard {
     public void run() throws IOException {
         IsBST tree = new IsBST();
         tree.read();
-        if (tree.solve()) {
-            System.out.println("CORRECT");
-        } else {
-            System.out.println("INCORRECT");
-        }
+//        if (tree.solve()) {
+//            System.out.println("CORRECT");
+//        } else {
+//            System.out.println("INCORRECT");
+//        }
     }
 }
