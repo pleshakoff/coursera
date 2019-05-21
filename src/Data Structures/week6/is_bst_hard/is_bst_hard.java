@@ -48,31 +48,25 @@ public class is_bst_hard {
 
         boolean isBinarySearchTree() {
             if (tree.length > 0) {
-                return checkSubTree(tree[0],Integer.MIN_VALUE,Integer.MAX_VALUE,1);
+                return checkSubTree(tree[0],Integer.MIN_VALUE,1 ,Integer.MAX_VALUE,1);
             }
             else
                 return true;
 
         }
 
-        boolean checkSubTree(Node node, int min, int max, int isRight) {
+        boolean checkSubTree(Node node, int min,int minIsRight, int max,int maxIsRight) {
 
-            if (isRight==1) {
-                if ((node.key < min) || (node.key > max)) {
+
+                if ((node.key < min) ||(node.key==min && minIsRight==0 ) || (node.key > max) || (node.key==max && maxIsRight==0)) {
                     return false;
                 }
-            }
-            else
-            if ((node.key <= min) || (node.key >= max)) {
-                return false;
-            }
-
 
             int left  = node.left;
             if ((left != -1)) {
                 if(tree[left].key>=node.key)
                     return false;
-                if (!checkSubTree(tree[left],min,node.key,0))
+                if (!checkSubTree(tree[left],min,minIsRight,node.key,0))
                     return false;
             }
 
@@ -81,7 +75,7 @@ public class is_bst_hard {
             if (right != -1) {
                 if (tree[right].key<node.key)
                     return false;
-                if (!checkSubTree(tree[right],node.key,max,1))
+                if (!checkSubTree(tree[right],node.key,1,max,maxIsRight))
                     return false;
             }
 
