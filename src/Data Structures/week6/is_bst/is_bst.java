@@ -2,6 +2,7 @@ import java.util.*;
 import java.io.*;
 
 public class is_bst {
+
     class FastScanner {
         StringTokenizer tok = new StringTokenizer("");
         BufferedReader in;
@@ -46,9 +47,42 @@ public class is_bst {
         }
 
         boolean isBinarySearchTree() {
-          // Implement correct algorithm here
-          return true;
+            if (tree.length > 0) {
+                return checkSubTree(tree[0],Integer.MIN_VALUE,Integer.MAX_VALUE);
+            }
+            else
+              return true;
+
         }
+
+        boolean checkSubTree(Node node,int min,int max) {
+            if ((node.key < min) || (node.key > max)) {
+                return false;
+            }
+
+            int left  = node.left;
+            if ((left != -1)) {
+                if(tree[left].key>node.key)
+                    return false;
+                if (!checkSubTree(tree[left],min,node.key))
+                    return false;
+            }
+
+
+            int right=node.right;
+            if (right != -1) {
+               if (tree[right].key<node.key)
+                return false;
+               if (!checkSubTree(tree[right],node.key,max))
+                   return false;
+            }
+
+            // Implement correct algorithm here
+            return true;
+        }
+
+
+
     }
 
     static public void main(String[] args) throws IOException {
@@ -64,10 +98,10 @@ public class is_bst {
     public void run() throws IOException {
         IsBST tree = new IsBST();
         tree.read();
-//        if (tree.solve()) {
-//            System.out.println("CORRECT");
-//        } else {
-//            System.out.println("INCORRECT");
-//        }
+        if (tree.isBinarySearchTree()) {
+            System.out.println("CORRECT");
+        } else {
+            System.out.println("INCORRECT");
+        }
     }
 }
