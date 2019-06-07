@@ -37,7 +37,7 @@ fun TaxiPark.findTheMostFrequentTripDurationPeriod(): IntRange? {
 
   return  trips.groupBy {
         val i = (it.duration / 10)*10
-        return@groupBy IntRange(i, i + 9)
+        IntRange(i, i + 9)
     }.maxBy<IntRange, List<Trip>, Int> { (_, list) ->
         (list.size)
     }?.key
@@ -52,8 +52,8 @@ fun TaxiPark.checkParetoPrinciple(): Boolean {
     if (trips.isEmpty()) return false
 
     val sDrivers = (allDrivers.size*0.2).roundToInt()
-    val total = trips.map { it.cost}.sum()*0.8
-    return trips.groupBy({it.driver},{it.cost}).map{(key,list) -> (list.sum())}.sortedByDescending {it}.take(sDrivers).sum()>=total
+    val total = trips.sumByDouble {  it.cost }*0.8
+    return trips.groupBy({it.driver},{it.cost}).map{(_,list) -> (list.sum())}.sortedByDescending {it}.take(sDrivers).sum()>=total
 
 
 }
