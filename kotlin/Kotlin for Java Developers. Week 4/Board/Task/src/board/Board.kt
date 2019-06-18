@@ -15,7 +15,7 @@ enum class Direction {
     }
 }
 
-interface SquareBoard {
+interface SquareBoard<T> {
     val width: Int
 
     fun getCellOrNull(i: Int, j: Int): Cell?
@@ -29,7 +29,7 @@ interface SquareBoard {
     fun Cell.getNeighbour(direction: Direction): Cell?
 }
 
-interface GameBoard<T> : SquareBoard {
+interface GameBoard<T> : SquareBoard<Any?> {
 
     operator fun get(cell: Cell): T?
     operator fun set(cell: Cell, value: T?)
