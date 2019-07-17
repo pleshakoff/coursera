@@ -75,7 +75,7 @@ class GameBoardImpl<T>(width: Int) : SquareBoardImpl(width),GameBoard<T> {
     }
 
     override fun set(cell: Cell, value: T?) {
-        if (value != null) cellsData[cell] = value
+         cellsData[cell] = value
     }
 
     override fun filter(predicate: (T?) -> Boolean): Collection<Cell> {
