@@ -7,6 +7,7 @@ import org.junit.Assert
 import org.junit.Test
 
 class TestGameOfFifteen {
+
     private fun Game.asString() =
             (1..4).joinToString("\n") { i ->
                 (1..4).joinToString(" ") { j ->
