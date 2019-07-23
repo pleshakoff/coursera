@@ -14,10 +14,7 @@ fun isEven(permutation: List<Int>): Boolean {
     var inversions = 0
     permutation.forEachIndexed{index, i ->
        if (index < permutation.size-1)
-         for (right in index+1 until permutation.size)
-         {
-             if (i>permutation[right]) inversions++
-         }
+           inversions += permutation.subList(index+1,permutation.size).count { i>it}
     }
     return (inversions % 2)  == 0
 
